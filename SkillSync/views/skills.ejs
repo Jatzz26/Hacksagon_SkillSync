@@ -1,0 +1,76 @@
+<% layout('layout') %>
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold title-skills">Explore Skills</h2>
+    <div class="row g-4">
+      <% skills.forEach(skill => { %>
+        <div class="col-md-4 col-sm-6">
+          <div class="custom-card" data-skill="<%= skill %>">
+            <button class="info-toggle-btn" aria-label="More information about <%= skill %>">
+              <i class="fas fa-info-circle"></i>
+            </button>
+
+            <div class="custom-card-content">
+              <h5 class="custom-card-title"><%= skill %></h5>
+              <form action="/search" method="GET">
+                <input type="hidden" name="q" value="<%= skill %>">
+                <a class="btn btn-outline-primary custom-card-btn mt-3" href="/<%= skill %>">Search</a>
+              </form>
+            </div>
+
+            <div class="custom-card-info-box">
+              <p class="info-text"></p> <button class="info-close-btn" aria-label="Close information">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const infoButtons = document.querySelectorAll('.info-toggle-btn');
+        const closeButtons = document.querySelectorAll('.info-close-btn');
+
+        const skillDescriptions = {
+            "Web-Development": "Focuses on building and maintaining websites and web applications, covering front-end and back-end technologies.",
+            "Data-Science": "Involves extracting knowledge and insights from data using scientific methods, algorithms, and systems.",
+            "Robotics": "Deals with the design, construction, operation, and application of robots for various tasks.",
+            "App-Development": "The process of creating software applications that run on mobile devices like smartphones and tablets.",
+            "Cybersecurity": "Protects computer systems and networks from information disclosure, theft of or damage to their hardware, software, or electronic data.",
+            "Machine-Learning": "A subset of AI that enables systems to learn from data, identify patterns, and make decisions with minimal human intervention.",
+            "Cloud-Computing": "Delivering on-demand computing services—including servers, storage, databases, networking, software, analytics, and intelligence—over the Internet.",
+            "DevOps": "A set of practices that combines software development (Dev) and IT operations (Ops) to shorten the development lifecycle and provide continuous delivery.",
+            "Game-Development": "The art and process of creating games, involving design, programming, art, sound, and story writing.",
+            "Blockchain-Technology": "A decentralized, distributed ledger technology that securely records transactions across multiple computers.",
+            "Artificial-Intelligence": "The simulation of human intelligence in machines that are programmed to think, learn, and problem-solve like humans.",
+            "Internet of Things (IoT)": "A network of physical objects embedded with sensors, software, and other technologies for connecting and exchanging data over the internet.",
+        };
+
+        infoButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const card = button.closest('.custom-card');
+                const skillName = card.dataset.skill;
+                const infoBox = card.querySelector('.custom-card-info-box');
+                const infoTextElement = infoBox.querySelector('.info-text');
+
+                
+                infoTextElement.textContent = skillDescriptions[skillName] || "No description available for this skill.";
+
+               
+                infoBox.classList.add('show-info');
+            });
+        });
+
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const infoBox = button.closest('.custom-card-info-box');
+                
+                infoBox.classList.remove('show-info');
+            });
+        });
+    });
+</script> 

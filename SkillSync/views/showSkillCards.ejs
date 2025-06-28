@@ -1,0 +1,17 @@
+<% layout('layout') %>
+<body>
+  <h1>Users with Skill: <%= skill %></h1>
+
+  <% if (users.length > 0) { %>
+    <ul>
+      <% users.forEach(user => { %>
+        <li><strong><%= user.name %></strong> — <%= user.email %></li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No users found with this skill.</p>
+  <% } %>
+
+  <a href="/">← Back to Skills</a>
+</body>
+</html>

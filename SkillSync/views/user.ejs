@@ -1,0 +1,31 @@
+<% layout('layout') %>
+
+<div class="container mt-5">
+  <h1 class="mb-4 text-center">👥 Users skilled in "<%= skill %>"</h1>
+
+  <% if (users.length === 0) { %>
+    <div class="alert alert-warning text-center">
+      No users found with this skill.
+    </div>
+  <% } else { %>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <% users.forEach(user => { %>
+        <div class="col">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title"><%= user.name %></h5>
+              <p class="card-text">
+                <strong>Semester:</strong> <%= user.sem %><br>
+                <strong>Email:</strong> <%= user.email %><br>
+                <strong>Enrollment #:</strong> <%= user.EnrNmber %>
+              </p>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
+
+</body>
+</html>

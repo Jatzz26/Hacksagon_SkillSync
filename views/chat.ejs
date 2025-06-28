@@ -1,0 +1,59 @@
+<% layout('layout') %>
+
+<section class="py-5 bg-light" style="min-height: 90vh;">
+  <div class="container">
+    <h3 class="text-center mb-4">💬 Chat with Senior</h3>
+
+    <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+      <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-chat-dots me-2"></i>Chat Room</span>
+        <span class="badge bg-light text-dark"><%= seniorName || 'Senior' %></span>
+      </div>
+
+      <div class="card-body" id="chat-box" style="height: 400px; overflow-y: auto; background-color: #f7f7f7;">
+        <!-- Messages will go here -->
+        <% messages.forEach(msg => { %>
+          <div class="mb-2 d-flex <%= msg.sender === user.name ? 'justify-content-end' : 'justify-content-start' %>">
+            <div class="p-2 rounded-3 <%= msg.sender === user.name ? 'bg-primary text-white' : 'bg-light border' %>">
+              <small><strong><%= msg.sender %></strong></small><br>
+              <%= msg.text %>
+              <div class="text-end text-muted small mt-1"><%= msg.timestamp %></div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+
+      <div class="card-footer bg-white">
+        <form id="chat-form" class="d-flex">
+          <input type="text" id="message-input" class="form-control me-2" placeholder="Type your message..." required />
+          <button type="submit" class="btn btn-success">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Auto-scroll chat to bottom
+  const chatBox = document.getElementById('chat-box');
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  // Handle chat form submission
+  document.getElementById("chat-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const input = document.getElementById("message-input");
+    const message = input.value.trim();
+    if (message) {
+      // Send message to server (AJAX or WebSocket)
+      // Example AJAX post:
+      await fetch('/chat/send', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ text: message })
+      });
+      input.value = '';
+      // Optional: Reload or append dynamically
+      location.reload(); // or append message manually
+    }
+  });
+</script>
